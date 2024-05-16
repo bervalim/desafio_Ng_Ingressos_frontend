@@ -14,8 +14,14 @@ export class UserService {
   readonly userSignal = signal<TRegisterUserResponse | null>(null);
 
   constructor(private userRequest: UserRequest, private router: Router) {
-    this.userRequest.userAutoLoginRequest()?.subscribe((data) => {
-      this.userSignal.set(data);
+    this.userRequest.userAutoLoginRequest()?.subscribe({
+      next: (data) => {
+        this.userSignal.set(data);
+      },
+      error: (error) => {
+        console.log(error);
+        this.logoutUsersService();
+      },
     });
   }
 
@@ -24,21 +30,29 @@ export class UserService {
   }
 
   registerUsersService(formData: TRegisterUserRequest) {
-    this.userRequest
-      .registerUsersRequest(formData)
-      .subscribe((data: TRegisterUserResponse) => {
+    this.userRequest.registerUsersRequest(formData).subscribe({
+      next: (data: TRegisterUserResponse) => {
         console.log(data);
         alert('Cadastro realizado com sucesso');
         this.router.navigateByUrl('/');
-      });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   loginUsersService(formData: TLoginUserRequest) {
-    this.userRequest.loginUserRequest(formData).subscribe((data) => {
-      this.userSignal.set(data.user);
-      localStorage.setItem('@TokenNG', JSON.stringify(data.token));
-      localStorage.setItem('@UserIdNG', JSON.stringify(data.user.id));
-      this.router.navigateByUrl('/dashboard');
+    this.userRequest.loginUserRequest(formData).subscribe({
+      next: (data) => {
+        this.userSignal.set(data.user);
+        localStorage.setItem('@TokenNG', JSON.stringify(data.token));
+        localStorage.setItem('@UserIdNG', JSON.stringify(data.user.id));
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 
