@@ -35,7 +35,13 @@ export class UserService {
     this.userRequest.loginUserRequest(formData).subscribe((data) => {
       this.userSignal.set(data.user);
       localStorage.setItem('@TokenNG', JSON.stringify(data.token));
-      localStorage.setItem('UserIdNG', JSON.stringify(data.user.id));
+      localStorage.setItem('@UserIdNG', JSON.stringify(data.user.id));
     });
+  }
+
+  logoutUsersService() {
+    this.userSignal.set(null);
+    localStorage.removeItem('@TokenNG');
+    localStorage.removeItem('@UserIdNG');
   }
 }
