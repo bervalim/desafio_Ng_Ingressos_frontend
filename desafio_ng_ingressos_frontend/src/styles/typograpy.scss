@@ -1,0 +1,44 @@
+.title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+
+  &.lg {
+    font-size: clamp(2.1875rem, 4vw, 2.6875rem);
+    color: var(--color-blue);
+  }
+
+  &.modal {
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    color: var(--color-blue);
+  }
+}
+
+.paragraph {
+  font-family: var(--font-primary);
+
+  &.card.title {
+    font-weight: 700;
+    font-size: clamp(1rem, 4vw, 1.1875rem);
+    color: var(--color-black);
+
+    &.cta {
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+    }
+  }
+
+  &.card.content {
+    font-weight: 400;
+    font-size: clamp(0.6rem, 4vw, 0.9rem);
+    color: var(--color-black);
+
+    &.email {
+      color: var(--color-blue);
+    }
+  }
+
+  &.validation.errors {
+    font-weight: 700;
+    font-size: clamp(0.5rem, 4vw, 0.8rem);
+    color: var(--color-blue);
+  }
+}
