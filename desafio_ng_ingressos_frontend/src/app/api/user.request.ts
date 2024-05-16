@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ILoginUserResponse,
+  TLoginData,
   TLoginUserRequest,
   TRegisterUserRequest,
   TRegisterUserResponse,
+  TUserData,
 } from '../interfaces/user.interface';
 
 @Injectable({
@@ -15,14 +17,14 @@ export class UserRequest {
 
   constructor(private http: HttpClient) {}
 
-  registerUsersRequest(formData: TRegisterUserRequest) {
+  registerUsersRequest(formData: TUserData) {
     return this.http.post<TRegisterUserResponse>(
       `${this.BASE_URL}/users`,
       formData
     );
   }
 
-  loginUserRequest(formData: TLoginUserRequest) {
+  loginUserRequest(formData: TLoginData) {
     return this.http.post<ILoginUserResponse>(
       `${this.BASE_URL}/login`,
       formData

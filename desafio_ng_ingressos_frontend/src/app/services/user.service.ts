@@ -1,11 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import {
+  TLoginData,
   TLoginUserRequest,
   TRegisterUserRequest,
   TRegisterUserResponse,
+  TUserData,
 } from '../interfaces/user.interface';
 import { UserRequest } from '../api/user.request';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +32,7 @@ export class UserService {
     return this.userSignal();
   }
 
-  registerUsersService(formData: TRegisterUserRequest) {
+  registerUsersService(formData: TUserData) {
     this.userRequest.registerUsersRequest(formData).subscribe({
       next: (data: TRegisterUserResponse) => {
         console.log(data);
@@ -37,12 +40,16 @@ export class UserService {
         this.router.navigateByUrl('/');
       },
       error: (error) => {
-        console.log(error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.error.message === 'User Email Already Exists') {
+            alert('Um usuário com este e-mail já foi cadastrado!');
+          }
+        }
       },
     });
   }
 
-  loginUsersService(formData: TLoginUserRequest) {
+  loginUsersService(formData: TLoginData) {
     this.userRequest.loginUserRequest(formData).subscribe({
       next: (data) => {
         this.userSignal.set(data.user);
@@ -51,7 +58,11 @@ export class UserService {
         this.router.navigateByUrl('/dashboard');
       },
       error: (error) => {
-        console.log(error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.error.message === 'Invalid Credentials!') {
+            alert('Senha ou e-mail inválidos');
+          }
+        }
       },
     });
   }
