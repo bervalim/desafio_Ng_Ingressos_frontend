@@ -1,0 +1,45 @@
+%buttonDefaults {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(-font-primary);
+  font-size: clamp(0.5rem, 3vw, 0.875rem);
+  font-weight: 700;
+  transition: 0.4s;
+  border: 1px solid;
+  border-radius: 255px;
+}
+
+.btn {
+  @extend %buttonDefaults;
+  border: 1px solid var(--color-blue);
+  height: 3rem;
+  padding: 0 20px;
+  background-color: var(--color-blue);
+  color: var(--color-white);
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  &.outline {
+    color: var(--color-blue);
+    background-color: var(--color-white);
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+}
+
+.anchor {
+  @extend %buttonDefaults;
+  color: var(--color-blue);
+  border: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--color-blue);
+  }
+}

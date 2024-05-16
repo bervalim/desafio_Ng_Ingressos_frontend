@@ -1,0 +1,113 @@
+<div class="container form">
+  <form [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
+    <div>
+      <h3 class="title lg">Cadastre-se</h3>
+      <a routerLink="/"><mat-icon class="arrow">arrow_back</mat-icon></a>
+    </div>
+    <div>
+      <div class="inputBox">
+        <input type="text" placeholder="Nome" formControlName="name" />
+        <p
+          *ngIf="errors.name?.['required'] && registerForm.get('name')?.value!==null"
+          class="paragraph validation errors"
+        >
+          O nome é obrigatório!
+        </p>
+        <p
+          *ngIf="errors.name?.['maxlength']"
+          class="paragraph validation errors"
+        >
+          O nome pode ter no máximo 80 caracteres!
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="inputBox">
+        <input type="email" placeholder="E-mail" formControlName="email" />
+        <p
+          *ngIf="errors.email?.['required'] && registerForm.get('email')?.value!==null"
+          class="paragraph validation errors"
+        >
+          O e-mail é obrigatório!
+        </p>
+        <p *ngIf="errors.email?.['email']" class="paragraph validation errors">
+          Forneça um formato de e-mail válido!
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="inputBox">
+        <input type="password" placeholder="Senha" formControlName="password" />
+        <p
+          *ngIf="errors.password?.['required'] && registerForm.get('password')?.value!==null"
+          class="paragraph validation errors"
+        >
+          A senha é obrigatória
+        </p>
+        <p
+          *ngIf="errors.password?.['minlength']"
+          class="paragraph validation errors"
+        >
+          A senha precisa ter no mínimo 8 caracteres
+        </p>
+        <p
+          *ngIf="errors.password?.['pattern']"
+          class="paragraph validation errors"
+        >
+          A senha precisa conter pelo menos uma letra maiúscula, uma letra
+          minúscula, um número e um caractere especial
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="inputBox">
+        <input
+          type="text"
+          placeholder="Data de nascimento:"
+          formControlName="birthDate"
+        />
+        <p
+          *ngIf="errors.birthDate?.['required'] && registerForm.get('birthDate')?.value!==null"
+          class="paragraph validation errors"
+        >
+          Informar a data de nascimento é obrigatório
+        </p>
+        <p
+          *ngIf="errors.birthDate?.['pattern']"
+          class="paragraph validation errors"
+        >
+          A data precisa ter o formato DD/MM/AAAA !
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="inputBox">
+        <select name="sex" formControlName="sex">
+          <option value="">Sexo:</option>
+          <option value="Male">Masculino</option>
+          <option value="Female">Feminino</option>
+          <option value="Other">Outro</option>
+        </select>
+        <p
+          *ngIf="errors.sex?.['required'] && registerForm.get('sex')?.touched"
+          class="paragraph validation errors"
+        >
+          Informar o sexo é obrigatório!
+        </p>
+      </div>
+    </div>
+    <div>
+      <label class="custom-file-upload">
+        <input class="input-file" type="file" formControlName="avatar" />
+        <p class="avatar-paragraph">Insira o seu avatar:</p>
+      </label>
+      <p
+        *ngIf="errors.avatar?.['required'] && registerForm.get('avatar')?.touched"
+        class="paragraph validation errors"
+      >
+        Informar o avatar é obrigatório!
+      </p>
+    </div>
+    <button class="btn" type="submit">Entrar</button>
+  </form>
+</div>
