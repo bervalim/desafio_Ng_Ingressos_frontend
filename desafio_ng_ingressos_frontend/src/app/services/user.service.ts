@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import {
+  TLoginData,
   TLoginUserRequest,
   TRegisterUserRequest,
   TRegisterUserResponse,
@@ -48,7 +49,7 @@ export class UserService {
     });
   }
 
-  loginUsersService(formData: TLoginUserRequest) {
+  loginUsersService(formData: TLoginData) {
     this.userRequest.loginUserRequest(formData).subscribe({
       next: (data) => {
         this.userSignal.set(data.user);
@@ -57,7 +58,11 @@ export class UserService {
         this.router.navigateByUrl('/dashboard');
       },
       error: (error) => {
-        console.log(error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.error.message === 'Invalid Credentials!') {
+            alert('Senha ou e-mail inválidos');
+          }
+        }
       },
     });
   }

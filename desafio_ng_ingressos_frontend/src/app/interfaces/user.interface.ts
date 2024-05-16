@@ -25,3 +25,8 @@ export interface ILoginUserResponse {
 }
 
 export type TLoginUserRequest = Pick<IUser, 'email' | 'password'>;
+
+export type TLoginData = {
+  email: string | null;
+  password: string | null;
+};
