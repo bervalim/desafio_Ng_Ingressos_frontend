@@ -7,6 +7,7 @@ import {
 } from '../interfaces/user.interface';
 import { UserRequest } from '../api/user.request';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,11 @@ export class UserService {
         this.router.navigateByUrl('/');
       },
       error: (error) => {
-        console.log(error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.error.message === 'User Email Already Exists') {
+            alert('Um usuário com este e-mail já foi cadastrado!');
+          }
+        }
       },
     });
   }
