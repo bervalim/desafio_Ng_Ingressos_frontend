@@ -29,6 +29,8 @@ export class LoginFormComponent {
   }
 
   submitLoginForm() {
-    console.log(this.loginForm.value);
+    if (this.loginForm.status === 'VALID') {
+      console.log(this.loginForm.value);
+    }
   }
 }

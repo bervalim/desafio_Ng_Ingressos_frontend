@@ -101,6 +101,12 @@
         <input class="input-file" type="file" formControlName="avatar" />
         <p class="avatar-paragraph">Insira o seu avatar:</p>
       </label>
+      <p
+        *ngIf="errors.avatar?.['required'] && registerForm.get('avatar')?.touched"
+        class="paragraph validation errors"
+      >
+        Informar o avatar é obrigatório!
+      </p>
     </div>
     <button class="btn" type="submit">Entrar</button>
   </form>

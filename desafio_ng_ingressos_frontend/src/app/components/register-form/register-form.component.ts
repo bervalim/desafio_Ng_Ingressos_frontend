@@ -46,7 +46,7 @@ export class RegisterFormComponent {
       ),
     ]),
     sex: new FormControl('', [Validators.required]),
-    avatar: new FormControl(null, [Validators.required]),
+    avatar: new FormControl('', [Validators.required]),
   });
 
   get errors() {
@@ -61,7 +61,9 @@ export class RegisterFormComponent {
   }
 
   submitRegisterForm() {
-    console.log(this.registerForm.value);
-    this.registerForm.reset();
+    if (this.registerForm.status == 'VALID') {
+      console.log(this.registerForm.value);
+      this.registerForm.reset();
+    }
   }
 }
