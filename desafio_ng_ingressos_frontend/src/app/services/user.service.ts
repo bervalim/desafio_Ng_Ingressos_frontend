@@ -3,6 +3,7 @@ import {
   TLoginUserRequest,
   TRegisterUserRequest,
   TRegisterUserResponse,
+  TUserData,
 } from '../interfaces/user.interface';
 import { UserRequest } from '../api/user.request';
 import { Router } from '@angular/router';
@@ -29,7 +30,7 @@ export class UserService {
     return this.userSignal();
   }
 
-  registerUsersService(formData: TRegisterUserRequest) {
+  registerUsersService(formData: TUserData) {
     this.userRequest.registerUsersRequest(formData).subscribe({
       next: (data: TRegisterUserResponse) => {
         console.log(data);

@@ -5,10 +5,17 @@ export interface IUser {
   password: string;
   birthDate: string;
   sex: string;
-  avatar: string;
 }
 
 export type TRegisterUserRequest = Omit<IUser, 'id'>;
+
+export type TUserData = {
+  name: string | null;
+  email: string | null;
+  password: string | null;
+  birthDate: string | null;
+  sex: string | null;
+};
 
 export type TRegisterUserResponse = Omit<IUser, 'password'>;
 
