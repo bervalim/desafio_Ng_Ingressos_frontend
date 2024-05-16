@@ -31,7 +31,7 @@ export class UserRequest {
 
   userAutoLoginRequest() {
     const token = localStorage.getItem('@TokenNG');
-    const userId = localStorage.getItem('UserIdNG');
+    const userId = localStorage.getItem('@UserIdNG');
 
     if (token && userId) {
       return this.http.get<TRegisterUserResponse>(
