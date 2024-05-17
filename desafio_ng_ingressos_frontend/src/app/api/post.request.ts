@@ -24,4 +24,8 @@ export class PostRequest {
       return null;
     }
   }
+
+  readPostsService() {
+    return this.http.get(`${this.BASE_URL}/posts`);
+  }
 }
