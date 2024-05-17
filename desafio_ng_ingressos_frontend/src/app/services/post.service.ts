@@ -3,6 +3,7 @@ import { PostRequest } from '../api/post.request';
 import {
   IPostResponse,
   TCreatePostRequest,
+  TUpdatePostRequest,
 } from '../interfaces/post.interface';
 
 @Injectable({
@@ -24,6 +25,28 @@ export class PostService {
   createPostService(formData: TCreatePostRequest) {
     this.postRequest.createPostRequest(formData)?.subscribe((data) => {
       this.postListSignal.update((postList) => [...postList, data]);
+    });
+  }
+
+  updatePostService(postId: string, formData: TUpdatePostRequest) {
+    this.postRequest.updatePostRequest(postId, formData)?.subscribe((data) => {
+      this.postListSignal.update((postList) =>
+        postList.map((post) => {
+          if (post.id === postId) {
+            return data;
+          } else {
+            return post;
+          }
+        })
+      );
+    });
+  }
+
+  deletePostService(postId: string) {
+    this.postRequest.deletePostRequest(postId)?.subscribe((data) => {
+      this.postListSignal.update((postList) =>
+        postList.filter((post) => post.id !== postId)
+      );
     });
   }
 }
