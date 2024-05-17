@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   IPostResponse,
+  TCreatePostFormData,
   TCreatePostRequest,
   TUpdatePostRequest,
 } from '../interfaces/post.interface';
@@ -14,7 +15,7 @@ export class PostRequest {
 
   constructor(private http: HttpClient) {}
 
-  createPostRequest(formData: TCreatePostRequest) {
+  createPostRequest(formData: TCreatePostFormData) {
     const token = localStorage.getItem('@TokenNG');
 
     if (token) {

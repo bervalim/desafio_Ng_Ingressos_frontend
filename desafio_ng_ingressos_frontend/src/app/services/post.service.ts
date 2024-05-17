@@ -2,10 +2,12 @@ import { Injectable, signal } from '@angular/core';
 import { PostRequest } from '../api/post.request';
 import {
   IPostResponse,
+  TCreatePostFormData,
   TCreatePostRequest,
   TUpdatePostRequest,
 } from '../interfaces/post.interface';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,11 @@ import { ToastrService } from 'ngx-toastr';
 export class PostService {
   readonly postListSignal = signal<IPostResponse[]>([]);
 
-  constructor(private postRequest: PostRequest, private toastr: ToastrService) {
+  constructor(
+    private postRequest: PostRequest,
+    private toastr: ToastrService,
+    private userService: UserService
+  ) {
     this.postRequest.readPostsRequest()?.subscribe((data) => {
       this.postListSignal.set(data);
     });
@@ -23,16 +29,17 @@ export class PostService {
     return this.postListSignal();
   }
 
-  createPostService(formData: TCreatePostRequest) {
-    this.postRequest.createPostRequest(formData)?.subscribe({
-      next: (data) => {
-        this.postListSignal.update((postList) => [...postList, data]);
-        this.toastr.success('O seu post foi criado com sucesso');
-      },
-      error: () => {
-        this.toastr.error('Erro ao criar post');
-      },
-    });
+  createPostService(formData: TCreatePostFormData) {
+    const user = this.userService.getUser();
+    if (user) {
+      const createPostRequest = { ...formData, author: user.name };
+      this.postRequest
+        .createPostRequest(createPostRequest)
+        ?.subscribe((data) => {
+          this.postListSignal.update((postList) => [...postList, data]);
+          this.toastr.success('O seu post foi criado com sucesso');
+        });
+    }
   }
 
   updatePostService(postId: string, formData: TUpdatePostRequest) {
