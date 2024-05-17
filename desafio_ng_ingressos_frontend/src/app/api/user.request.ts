@@ -36,11 +36,13 @@ export class UserRequest {
     const userId = localStorage.getItem('@UserIdNG');
 
     if (token && userId) {
+      const parsedToken = JSON.parse(token);
+      const parsedUserId = JSON.parse(userId);
       return this.http.get<TRegisterUserResponse>(
-        `${this.BASE_URL}/users/${userId}`,
+        `${this.BASE_URL}/users/${parsedUserId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${parsedToken}`,
           },
         }
       );

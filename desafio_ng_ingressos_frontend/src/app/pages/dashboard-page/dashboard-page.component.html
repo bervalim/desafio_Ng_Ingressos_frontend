@@ -1,7 +1,9 @@
-<main>
-  <div *ngIf="user">
-    <p>{{ user.name }}</p>
-    <p>{{ user.email }}</p>
-    <button (click)="handleLogout()">Logout</button>
-  </div>
-</main>
+<app-private-routes>
+  <main>
+    <div *ngIf="user">
+      <p>{{ user.name }}</p>
+      <p>{{ user.email }}</p>
+      <button class="btn outline" (click)="handleLogout()">Logout</button>
+    </div>
+  </main>
+</app-private-routes>

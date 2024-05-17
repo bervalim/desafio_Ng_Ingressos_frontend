@@ -8,3 +8,5 @@ export const routes: Routes = [
   { path: 'register', component: RegisterPageComponent },
   { path: 'dashboard', component: DashboardPageComponent },
 ];
+
+export const publicRoutes = ['/', '/register'];
