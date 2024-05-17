@@ -1,8 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import {
   TLoginData,
-  TLoginUserRequest,
-  TRegisterUserRequest,
   TRegisterUserResponse,
   TUserData,
 } from '../interfaces/user.interface';
@@ -20,6 +18,7 @@ export class UserService {
     this.userRequest.userAutoLoginRequest()?.subscribe({
       next: (data) => {
         this.userSignal.set(data);
+        this.router.navigateByUrl('/dashboard');
       },
       error: (error) => {
         console.log(error);
