@@ -8,6 +8,7 @@ import { UserRequest } from '../api/user.request';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { publicRoutes } from '../app.routes';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,11 @@ import { publicRoutes } from '../app.routes';
 export class UserService {
   readonly userSignal = signal<TRegisterUserResponse | null>(null);
 
-  constructor(private userRequest: UserRequest, private router: Router) {
+  constructor(
+    private userRequest: UserRequest,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
     const pathname = window.location.pathname;
     this.userRequest.userAutoLoginRequest()?.subscribe({
       next: (data) => {
@@ -41,13 +46,13 @@ export class UserService {
     this.userRequest.registerUsersRequest(formData).subscribe({
       next: (data: TRegisterUserResponse) => {
         console.log(data);
-        alert('Cadastro realizado com sucesso');
+        this.toastr.success('Cadastro realizado com sucesso');
         this.router.navigateByUrl('/');
       },
       error: (error) => {
         if (error instanceof HttpErrorResponse) {
           if (error.error.message === 'User Email Already Exists') {
-            alert('Um usuário com este e-mail já foi cadastrado!');
+            this.toastr.error('Um usuário com este e-mail já foi cadastrado!');
           }
         }
       },
@@ -60,12 +65,13 @@ export class UserService {
         this.userSignal.set(data.user);
         localStorage.setItem('@TokenNG', JSON.stringify(data.token));
         localStorage.setItem('@UserIdNG', JSON.stringify(data.user.id));
+        this.toastr.success(`Seja bem-vindo,${data.user.name}`);
         this.router.navigateByUrl('/dashboard');
       },
       error: (error) => {
         if (error instanceof HttpErrorResponse) {
           if (error.error.message === 'Invalid Credentials!') {
-            alert('Senha ou e-mail inválidos');
+            this.toastr.error('Senha ou e-mail inválidos');
           }
         }
       },
@@ -76,6 +82,7 @@ export class UserService {
     this.userSignal.set(null);
     localStorage.removeItem('@TokenNG');
     localStorage.removeItem('@UserIdNG');
+    this.toastr.success('Deslogando...');
     this.router.navigateByUrl('/');
   }
 }
