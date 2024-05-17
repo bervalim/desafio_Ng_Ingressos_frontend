@@ -1,0 +1,28 @@
+.flexbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+
+  @media (min-width: 400px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.flexbox_add {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+
+  @media (min-width: 400px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

@@ -7,11 +7,14 @@ import {
 } from '@angular/forms';
 import { PostService } from '../../services/post.service';
 import { TCreatePostFormData } from '../../interfaces/post.interface';
+import { MatCommonModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-post-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, MatCommonModule],
   templateUrl: './create-post-form.component.html',
   styleUrl: './create-post-form.component.scss',
 })
