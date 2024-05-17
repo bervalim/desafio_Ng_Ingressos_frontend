@@ -2,14 +2,16 @@
   <div class="container">
     <main>
       <div class="flexbox">
-        <p>{{ user?.name }}</p>
+        <p>Olá,{{ user?.name }}</p>
         <button class="btn outline" (click)="handleLogout()">Sair</button>
       </div>
       <div class="flexbox_add">
         <h2 class="paragraph card title cta">Crie o seu post:</h2>
-        <button class="btn">Criar</button>
+        <button (click)="openCreatePostModal()" class="btn">Criar</button>
       </div>
-      <app-create-post-form></app-create-post-form>
+      <app-create-post-form
+        *ngIf="createPostModalSignal"
+      ></app-create-post-form>
     </main>
   </div>
 </app-private-routes>

@@ -33,6 +33,10 @@ export class CreatePostFormComponent {
     };
   }
 
+  handleCloseModal() {
+    return this.postService.closeCreatePostModal();
+  }
+
   submitCreatePost() {
     const data = this.postCreateForm.value as TCreatePostFormData;
     this.postService.createPostService(data);

@@ -14,6 +14,7 @@ import { UserService } from './user.service';
 })
 export class PostService {
   readonly postListSignal = signal<IPostResponse[]>([]);
+  readonly createPostModalSignal = signal(false);
 
   constructor(
     private postRequest: PostRequest,
@@ -29,6 +30,18 @@ export class PostService {
     return this.postListSignal();
   }
 
+  getCreatePostModalSignal() {
+    return this.createPostModalSignal();
+  }
+
+  setCreatePostModal() {
+    return this.createPostModalSignal.set(true);
+  }
+
+  closeCreatePostModal() {
+    return this.createPostModalSignal.set(false);
+  }
+
   createPostService(formData: TCreatePostFormData) {
     const user = this.userService.getUser();
     if (user) {
@@ -38,6 +51,7 @@ export class PostService {
         ?.subscribe((data) => {
           this.postListSignal.update((postList) => [...postList, data]);
           this.toastr.success('O seu post foi criado com sucesso');
+          this.closeCreatePostModal();
         });
     }
   }
