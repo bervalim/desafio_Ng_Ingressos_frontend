@@ -3,7 +3,6 @@ import { PostRequest } from '../api/post.request';
 import {
   IPostResponse,
   TCreatePostFormData,
-  TCreatePostRequest,
   TUpdatePostRequest,
 } from '../interfaces/post.interface';
 import { ToastrService } from 'ngx-toastr';
@@ -26,7 +25,7 @@ export class PostService {
     });
   }
 
-  getPosts() {
+  getPostList() {
     return this.postListSignal();
   }
 
