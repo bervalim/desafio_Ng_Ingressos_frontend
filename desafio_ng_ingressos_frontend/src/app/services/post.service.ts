@@ -5,6 +5,7 @@ import {
   TCreatePostRequest,
   TUpdatePostRequest,
 } from '../interfaces/post.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ import {
 export class PostService {
   readonly postListSignal = signal<IPostResponse[]>([]);
 
-  constructor(private postRequest: PostRequest) {
+  constructor(private postRequest: PostRequest, private toastr: ToastrService) {
     this.postRequest.readPostsRequest()?.subscribe((data) => {
       this.postListSignal.set(data);
     });
@@ -23,30 +24,48 @@ export class PostService {
   }
 
   createPostService(formData: TCreatePostRequest) {
-    this.postRequest.createPostRequest(formData)?.subscribe((data) => {
-      this.postListSignal.update((postList) => [...postList, data]);
+    this.postRequest.createPostRequest(formData)?.subscribe({
+      next: (data) => {
+        this.postListSignal.update((postList) => [...postList, data]);
+        this.toastr.success('O seu post foi criado com sucesso');
+      },
+      error: () => {
+        this.toastr.error('Erro ao criar post');
+      },
     });
   }
 
   updatePostService(postId: string, formData: TUpdatePostRequest) {
-    this.postRequest.updatePostRequest(postId, formData)?.subscribe((data) => {
-      this.postListSignal.update((postList) =>
-        postList.map((post) => {
-          if (post.id === postId) {
-            return data;
-          } else {
-            return post;
-          }
-        })
-      );
+    this.postRequest.updatePostRequest(postId, formData)?.subscribe({
+      next: (data) => {
+        this.postListSignal.update((postList) =>
+          postList.map((post) => {
+            if (post.id === postId) {
+              return data;
+            } else {
+              return post;
+            }
+          })
+        );
+        this.toastr.success('Post atualizado com sucesso');
+      },
+      error: () => {
+        this.toastr.error('Erro ao atualizar o seu post');
+      },
     });
   }
 
   deletePostService(postId: string) {
-    this.postRequest.deletePostRequest(postId)?.subscribe((data) => {
-      this.postListSignal.update((postList) =>
-        postList.filter((post) => post.id !== postId)
-      );
+    this.postRequest.deletePostRequest(postId)?.subscribe({
+      next: () => {
+        this.postListSignal.update((postList) =>
+          postList.filter((post) => post.id !== postId)
+        );
+        this.toastr.success('Post deletado com sucesso');
+      },
+      error: () => {
+        this.toastr.error('Não foi possível deletar o seu post');
+      },
     });
   }
 }
