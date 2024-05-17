@@ -57,13 +57,16 @@ export class PostService {
         ...formData,
         author: user.name,
       };
-      this.postRequest
-        .createPostRequest(createPostRequest)
-        ?.subscribe((data) => {
+      this.postRequest.createPostRequest(createPostRequest)?.subscribe({
+        next: (data) => {
           this.postListSignal.update((postList) => [...postList, data]);
           this.toastr.success('O seu post foi criado com sucesso');
           this.closeCreatePostModal();
-        });
+        },
+        error: (error) => {
+          this.toastr.error('Erro ao criar o post');
+        },
+      });
     }
   }
 
@@ -71,18 +74,23 @@ export class PostService {
     const editingPost = this.editingPostSignal();
     if (editingPost) {
       const id = editingPost?.id;
-      this.postRequest.updatePostRequest(id, formData)?.subscribe((data) => {
-        this.postListSignal.update((postList) =>
-          postList.map((post) => {
-            if (post.id === id) {
-              return data;
-            } else {
-              return post;
-            }
-          })
-        );
+      this.postRequest.updatePostRequest(id, formData)?.subscribe({
+        next: (data) => {
+          this.postListSignal.update((postList) =>
+            postList.map((post) => {
+              if (post.id === id) {
+                return data;
+              } else {
+                return post;
+              }
+            })
+          );
+          this.toastr.success('Post atualizado com sucesso');
+        },
+        error: (error) => {
+          this.toastr.error('Erro ao atualizar o post');
+        },
       });
-      this.toastr.success('Post atualizado com sucesso');
     }
   }
 
