@@ -45,4 +45,8 @@ export class DashboardPageComponent {
   handleLogout() {
     this.userService.logoutUsersService();
   }
+
+  handleDeletePost(id: string) {
+    this.postService.deletePostService(id);
+  }
 }

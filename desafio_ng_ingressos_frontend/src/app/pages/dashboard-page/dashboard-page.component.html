@@ -23,7 +23,7 @@
             {{ post.content }}
           </p>
           <div class="flexbox_icons">
-            <button>
+            <button (click)="handleDeletePost(post.id)">
               <mat-icon class="trash"> delete </mat-icon>
             </button>
             <button>
