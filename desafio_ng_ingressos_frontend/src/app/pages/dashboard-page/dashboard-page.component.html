@@ -1,9 +1,41 @@
 <app-private-routes>
-  <main>
-    <div *ngIf="user">
-      <p>{{ user.name }}</p>
-      <p>{{ user.email }}</p>
-      <button class="btn outline" (click)="handleLogout()">Logout</button>
-    </div>
-  </main>
+  <div class="container">
+    <main>
+      <div class="flexbox">
+        <p>Olá,{{ user?.name }}</p>
+        <button class="btn outline" (click)="handleLogout()">Sair</button>
+      </div>
+      <div class="flexbox_add">
+        <h2 class="title modal">Crie o seu post:</h2>
+        <button (click)="openCreatePostModal()" class="btn">Criar</button>
+      </div>
+      <app-create-post-form
+        *ngIf="createPostModalSignal"
+      ></app-create-post-form>
+
+      <ul *ngIf="postList.length > 0" class="post-list">
+        <li *ngFor="let post of postList" class="post-card">
+          <h3 class="title post title">
+            {{ post.title }} --
+            <cite class="paragraph card content">{{ post.author }}</cite>
+          </h3>
+          <p id="paragraph" class="paragraph card title paragraph card">
+            {{ post.content }}
+          </p>
+          <div class="flexbox_icons" *ngIf="post.user_id == user?.id">
+            <button (click)="handleDeletePost(post.id)">
+              <mat-icon class="trash"> delete </mat-icon>
+            </button>
+            <button (click)="handleEditPost(post)">
+              <mat-icon class="pencil">edit</mat-icon>
+            </button>
+          </div>
+        </li>
+      </ul>
+      <p class="paragraph card content email" *ngIf="postList.length === 0">
+        Ainda não existe nenhum post
+      </p>
+      <app-update-post-form *ngIf="editingPost"></app-update-post-form>
+    </main>
+  </div>
 </app-private-routes>

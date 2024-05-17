@@ -3,7 +3,6 @@ import { PostRequest } from '../api/post.request';
 import {
   IPostResponse,
   TCreatePostFormData,
-  TCreatePostRequest,
   TUpdatePostRequest,
 } from '../interfaces/post.interface';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +13,8 @@ import { UserService } from './user.service';
 })
 export class PostService {
   readonly postListSignal = signal<IPostResponse[]>([]);
+  readonly createPostModalSignal = signal(false);
+  readonly editingPostSignal = signal<IPostResponse | null>(null);
 
   constructor(
     private postRequest: PostRequest,
@@ -25,41 +26,64 @@ export class PostService {
     });
   }
 
-  getPosts() {
+  getEditingPost() {
+    return this.editingPostSignal();
+  }
+
+  setEditingPost(post: IPostResponse | null) {
+    this.editingPostSignal.set(post);
+  }
+
+  getPostList() {
     return this.postListSignal();
+  }
+
+  getCreatePostModalSignal() {
+    return this.createPostModalSignal();
+  }
+
+  setCreatePostModal() {
+    return this.createPostModalSignal.set(true);
+  }
+
+  closeCreatePostModal() {
+    return this.createPostModalSignal.set(false);
   }
 
   createPostService(formData: TCreatePostFormData) {
     const user = this.userService.getUser();
     if (user) {
-      const createPostRequest = { ...formData, author: user.name };
+      const createPostRequest = {
+        ...formData,
+        author: user.name,
+      };
       this.postRequest
         .createPostRequest(createPostRequest)
         ?.subscribe((data) => {
           this.postListSignal.update((postList) => [...postList, data]);
           this.toastr.success('O seu post foi criado com sucesso');
+          this.closeCreatePostModal();
         });
     }
   }
 
-  updatePostService(postId: string, formData: TUpdatePostRequest) {
-    this.postRequest.updatePostRequest(postId, formData)?.subscribe({
-      next: (data) => {
+  updatePostsService(formData: TUpdatePostRequest) {
+    const editingPost = this.editingPostSignal();
+    if (editingPost) {
+      const id = editingPost?.id;
+      this.postRequest.updatePostRequest(id, formData)?.subscribe((data) => {
         this.postListSignal.update((postList) =>
           postList.map((post) => {
-            if (post.id === postId) {
+            if (post.id === id) {
               return data;
             } else {
               return post;
             }
           })
         );
-        this.toastr.success('Post atualizado com sucesso');
-      },
-      error: () => {
-        this.toastr.error('Erro ao atualizar o seu post');
-      },
-    });
+      });
+      this.toastr.success('Post atualizado com sucesso');
+    }
   }
 
   deletePostService(postId: string) {

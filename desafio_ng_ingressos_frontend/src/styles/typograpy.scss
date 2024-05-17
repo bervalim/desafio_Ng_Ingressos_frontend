@@ -11,6 +11,11 @@
     font-size: clamp(1.4rem, 4vw, 1.9rem);
     color: var(--color-blue);
   }
+
+  &.post.title {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    color: var(--color-blue);
+  }
 }
 
 .paragraph {
@@ -23,6 +28,12 @@
 
     &.cta {
       font-size: clamp(1.1rem, 4vw, 1.4rem);
+    }
+
+    &.paragraph.card {
+      font-weight: 700;
+      font-size: clamp(0.4rem, 5vw, 0.7rem);
+      color: var(--color-black);
     }
   }
 
