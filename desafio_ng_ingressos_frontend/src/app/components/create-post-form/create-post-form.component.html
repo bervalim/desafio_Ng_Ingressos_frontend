@@ -1,0 +1,35 @@
+<div class="modalOverlay">
+  <div class="modalBox">
+    <div class="modalHeaders">
+      <h2 class="title modal">Criar Post:</h2>
+      <button (click)="handleCloseModal()">
+        <mat-icon class="close">close</mat-icon>
+      </button>
+    </div>
+    <form
+      class="formModal"
+      (ngSubmit)="submitCreatePost()"
+      [formGroup]="postCreateForm"
+    >
+      <div class="inputBox">
+        <input type="text" placeholder="Título" formControlName="title" />
+        <p
+          *ngIf="errors.title?.['required'] &&  postCreateForm.get('title')?.value!==null "
+          class="paragraph validation errors"
+        >
+          O título é obrigatório!
+        </p>
+      </div>
+      <div class="inputBox">
+        <textarea placeholder="Conteúdo" formControlName="content"></textarea>
+        <p
+          *ngIf="errors.content.['required'] &&  postCreateForm.get('content')?.value!==null "
+          class="paragraph validation errors"
+        >
+          O conteúdo é obrigatório!
+        </p>
+      </div>
+      <button class="btn" type="submit">Criar Post</button>
+    </form>
+  </div>
+</div>
