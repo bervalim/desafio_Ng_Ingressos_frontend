@@ -6,12 +6,15 @@ import { CreatePostFormComponent } from '../../components/create-post-form/creat
 import { PostService } from '../../services/post.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCommonModule } from '@angular/material/core';
+import { UpdatePostFormComponent } from '../../components/update-post-form/update-post-form.component';
+import { IPostResponse } from '../../interfaces/post.interface';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
   imports: [
     CommonModule,
+    UpdatePostFormComponent,
     PrivateRoutesComponent,
     CreatePostFormComponent,
     MatIconModule,
@@ -36,6 +39,14 @@ export class DashboardPageComponent {
 
   get postList() {
     return this.postService.getPostList();
+  }
+
+  get editingPost() {
+    return this.postService.getEditingPost();
+  }
+
+  handleEditPost(post: IPostResponse) {
+    return this.postService.setEditingPost(post);
   }
 
   openCreatePostModal() {

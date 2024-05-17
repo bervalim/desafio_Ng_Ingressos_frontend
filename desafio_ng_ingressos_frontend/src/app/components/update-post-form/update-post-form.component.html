@@ -1,0 +1,23 @@
+<div class="modalOverlay">
+  <div class="modalBox">
+    <div class="modalHeaders">
+      <h2 class="title modal">Editar Post</h2>
+      <button (click)="setEditingPostToNull()">
+        <mat-icon class="close">close</mat-icon>
+      </button>
+    </div>
+    <form
+      class="formModal"
+      (ngSubmit)="submitUpdatePost()"
+      [formGroup]="postUpdateForm"
+    >
+      <div class="inputBox">
+        <input type="text" placeholder="Título" formControlName="title" />
+      </div>
+      <div class="inputBox">
+        <textarea placeholder="Conteúdo" formControlName="content"></textarea>
+      </div>
+      <button class="btn" type="submit">Editar Post</button>
+    </form>
+  </div>
+</div>
