@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import {
   ILoginUserResponse,
   TLoginData,
-  TLoginUserRequest,
-  TRegisterUserRequest,
   TRegisterUserResponse,
   TUserData,
 } from '../interfaces/user.interface';
