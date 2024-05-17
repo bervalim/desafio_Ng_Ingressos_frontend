@@ -7,6 +7,7 @@ import {
 import { UserRequest } from '../api/user.request';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { publicRoutes } from '../app.routes';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,15 @@ export class UserService {
   readonly userSignal = signal<TRegisterUserResponse | null>(null);
 
   constructor(private userRequest: UserRequest, private router: Router) {
+    const pathname = window.location.pathname;
     this.userRequest.userAutoLoginRequest()?.subscribe({
       next: (data) => {
         this.userSignal.set(data);
-        this.router.navigateByUrl('/dashboard');
+        if (publicRoutes.includes(pathname)) {
+          this.router.navigateByUrl('/dashboard');
+        } else {
+          this.router.navigateByUrl(pathname);
+        }
       },
       error: (error) => {
         console.log(error);
