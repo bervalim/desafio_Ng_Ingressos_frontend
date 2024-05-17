@@ -62,4 +62,18 @@ export class PostRequest {
       return null;
     }
   }
+
+  deletePostRequest(postId: string) {
+    const token = localStorage.getItem('@TokenNG');
+    if (token) {
+      const parsedToken = JSON.parse(token);
+      return this.http.delete(`${this.BASE_URL}/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${parsedToken}`,
+        },
+      });
+    } else {
+      return null;
+    }
+  }
 }
