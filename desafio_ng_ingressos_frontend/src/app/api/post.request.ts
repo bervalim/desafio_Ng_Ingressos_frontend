@@ -11,7 +11,7 @@ import {
   providedIn: 'root',
 })
 export class PostRequest {
-  private BASE_URL = 'https://desafio-ng-ingressos-frontend.vercel.app';
+  private BASE_URL = 'https://desafio-ng-ingressos-backend.onrender.com';
 
   constructor(private http: HttpClient) {}
 
