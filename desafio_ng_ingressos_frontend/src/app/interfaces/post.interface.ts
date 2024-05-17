@@ -11,3 +11,5 @@ export type TCreatePostRequest = Omit<IPostResponse, 'id' | 'createdAt'>;
 export type TUpdatePostRequest = Partial<
   Omit<IPostResponse, 'id' | 'author' | 'createdAt'>
 >;
+
+export type TCreatePostFormData = Omit<TCreatePostRequest, 'author'>;
